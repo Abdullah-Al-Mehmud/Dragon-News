@@ -4,7 +4,7 @@ import QZone from "./QZone";
 
 const RightSideNav = () => {
   return (
-    <div>
+    <div className=" pl-7">
       <div className="mb-14">
         <LogInWith></LogInWith>
       </div>

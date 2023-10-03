@@ -1,7 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
 import userPic from "../../../assets/user.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProviders";
 
 const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+
+  // logout
+  const handleLogOut = () => {
+    signOutUser().then().catch();
+  };
+
   const links = (
     <>
       <li>
@@ -45,36 +54,44 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end gap-5">
-        {/* profile pic */}
-        <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img src={userPic} />
-            </div>
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div>
-        {/* login */}
-        <div>
-          <Link>
-            <button className="bg-gray-700 text-white px-9 py-2">LogIn</button>
-          </Link>
-        </div>
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img src={userPic} />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <a>Settings</a>
+              </li>
+              <li>
+                <a onClick={handleLogOut}>Logout</a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <div>
+            <Link to="/register">
+              <button className="bg-gray-700 text-white px-9 py-2">
+                Register
+              </button>
+            </Link>
+            <Link className="ml-4" to="/login">
+              <button className="bg-gray-700 text-white px-9 py-2">
+                LogIn
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
